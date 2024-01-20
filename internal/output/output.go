@@ -1,4 +1,4 @@
-package gcs
+package output
 
 import (
 	"context"
@@ -10,6 +10,8 @@ import (
 	"cloud.google.com/go/storage"
 	"github.com/sirupsen/logrus"
 	"go.k6.io/k6/output"
+
+	"github.com/churark/xk6-output-gcs/internal/config"
 )
 
 type Entry struct {
@@ -20,15 +22,11 @@ type Entry struct {
 	Time   int64             `json:"time"`
 }
 
-func init() {
-	output.RegisterExtension("gcs", New)
-}
-
 type Output struct {
 	output.SampleBuffer
 
 	scli            *storage.Client
-	cfg             *Config
+	cfg             *config.Config
 	logger          logrus.FieldLogger
 	periodicFlusher *output.PeriodicFlusher
 	mu              sync.Mutex
@@ -43,7 +41,7 @@ func New(params output.Params) (output.Output, error) {
 		return nil, err
 	}
 
-	cfg, err := NewConfig(ctx)
+	cfg, err := config.NewConfig(ctx)
 	if err != nil {
 		params.Logger.Errorf("failed to create config: %v", err)
 		return nil, err

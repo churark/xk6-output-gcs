@@ -1,8 +1,8 @@
 .PHONY: build
 build:
-	xk6 build --with xk6-output-gcs=.
+	xk6 build --with $(shell go list -m)=.
 
 .PHONY: run-example
 run-example: build
 run-example:
-	./k6 run _example/test.js --out gcs --quiet --no-summary --iterations 2
+	./k6 run _example/test.js --out gcs --iterations 2
