@@ -22,10 +22,12 @@ TODO
 
 Configurations are set by environment variables.
 
-| Key            | Type   | Default |          | 
-| -------------- | ------ | ------- | -------- | 
-| GCS_PROJECT_ID | string |         | required | 
-| GCS_BUCKET     | string |         | required | 
+| Key                 | Type   | Default | Required | 
+| ------------------- | ------ | ------- | -------- | 
+| GCS_PROJECT_ID      | string |         | ✅       | 
+| GCS_BUCKET          | string |         | ✅       | 
+| GCS_CREDENTIAL_JSON | string |         |          |
+| GCS_CREDENTIAL_PATH | string |         |          |
 
 ## Contribution
 
