@@ -101,6 +101,11 @@ func (o *Output) Stop() error {
 		return err
 	}
 
+	if err := sc.Close(); err != nil {
+		o.logger.Errorf("failed to close storage client: %", err)
+		return err
+	}
+
 	if err := o.scli.Close(); err != nil {
 		o.logger.Errorf("failed to close storage client: %", err)
 	}
