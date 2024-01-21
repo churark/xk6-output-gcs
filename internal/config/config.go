@@ -7,8 +7,10 @@ import (
 )
 
 type Config struct {
-	ProjectID string `env:"GCS_PROJECT_ID,required"`
-	Bucket    string `env:"GCS_BUCKET,required"`
+	ProjectID      string `env:"GCS_PROJECT_ID,required"`
+	Bucket         string `env:"GCS_BUCKET,required"`
+	CredentialJSON string `env:"GCS_CREDENTIAL_JSON"`
+	CredentialPath string `env:"GCS_CREDENTIAL_PATH"`
 }
 
 func NewConfig(ctx context.Context) (*Config, error) {

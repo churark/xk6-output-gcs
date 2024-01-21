@@ -32,10 +32,14 @@ func TestNewConfig(t *testing.T) {
 
 				t.Setenv("GCS_PROJECT_ID", "project-id")
 				t.Setenv("GCS_BUCKET", "bucket")
+				t.Setenv("GCS_CREDENTIAL_JSON", "{'json': 'json'}")
+				t.Setenv("GCS_CREDENTIAL_PATH", "credential-path")
 			},
 			want: &Config{
-				ProjectID: "project-id",
-				Bucket:    "bucket",
+				ProjectID:      "project-id",
+				Bucket:         "bucket",
+				CredentialJSON: "{'json': 'json'}",
+				CredentialPath: "credential-path",
 			},
 		},
 	}

@@ -10,6 +10,7 @@ import (
 	"cloud.google.com/go/storage"
 	"github.com/sirupsen/logrus"
 	"go.k6.io/k6/output"
+	"google.golang.org/api/option"
 
 	"github.com/churark/xk6-output-gcs/internal/config"
 )
@@ -35,15 +36,22 @@ type Output struct {
 
 func New(params output.Params) (output.Output, error) {
 	ctx := context.Background()
-	scli, err := storage.NewClient(ctx)
-	if err != nil {
-		params.Logger.Errorf("failed to create gcs client: %v", err)
-		return nil, err
-	}
-
 	cfg, err := config.NewConfig(ctx)
 	if err != nil {
 		params.Logger.Errorf("failed to create config: %v", err)
+		return nil, err
+	}
+
+	opts := make([]option.ClientOption, 0, 1)
+	switch {
+	case cfg.CredentialPath != "":
+		opts = append(opts, option.WithCredentialsFile(cfg.CredentialPath))
+	case cfg.CredentialJSON != "":
+		opts = append(opts, option.WithCredentialsJSON([]byte(cfg.CredentialJSON)))
+	}
+	scli, err := storage.NewClient(ctx, opts...)
+	if err != nil {
+		params.Logger.Errorf("failed to create gcs client: %v", err)
 		return nil, err
 	}
 
